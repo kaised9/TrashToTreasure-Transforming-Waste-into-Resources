@@ -1,8 +1,8 @@
-# TrashToTreasure
+# ♻️ TrashToTreasure
 
 TrashToTreasure is a waste management and upcycled product marketplace platform. It enables the collection, categorization, and sale of waste materials, while also allowing artisans to create and sell upcycled products.
 
-## Features
+## 🌟 Features
 
 ### **Waste Management System**
 - City corporations and companies collect waste from households and businesses.
@@ -97,7 +97,7 @@ For any inquiries, feel free to reach out:
 **Author:** Md. Kaised Mollick   
 Dept. of CSE   
 Green University of Bangladesh   
-**📧 Email:** a.r.kaised.7698.com   
+**📧 Email:** a.r.kaised.7698@gmail.com   
 
 ---
 Let's turn waste into value! ♻️🚀
