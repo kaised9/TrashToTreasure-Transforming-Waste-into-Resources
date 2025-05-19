@@ -1,0 +1,103 @@
+{% load static %}
+{% include "header.html" %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Search Results</title>
+  <link rel="stylesheet" href="{% static 'css/search.css' %}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+
+  <!-- 1) Search + Filter Bar -->
+  <section class="search-section">
+    <form method="get" action="{% url 'search_results' %}" class="search-form">
+      <input type="text" name="q" placeholder="Search…" value="{{ query }}" required>
+      <select name="type">
+        <option value="all" {% if type_filter == 'all' %}selected{% endif %}>All Types</option>
+        <option value="trash" {% if type_filter == 'trash' %}selected{% endif %}>Trash Items</option>
+        <option value="upcycled" {% if type_filter == 'upcycled' %}selected{% endif %}>Upcycled Products</option>
+      </select>
+      <button type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+    </form>
+  </section>
+
+  <!-- 2) Results Grid -->
+  <section class="results-section">
+
+    <select name="sort">
+      <option value=""              {% if sort == ""            %}selected{% endif %}>Newest</option>
+      <option value="price_low"     {% if sort == "price_low"   %}selected{% endif %}>Price: Low → High</option>
+      <option value="price_high"    {% if sort == "price_high"  %}selected{% endif %}>Price: High → Low</option>
+    </select>
+
+    {% if page_obj %}
+      <div class="results-grid">
+        {% for item in page_obj %}
+          <div class="result-card">
+            {% if item.stype == 'trash' %}
+              <img src="{{ item.images.url }}" alt="{{ item.material_name }}">
+              <div class="result-info">
+                <h3>{{ item.material_name|truncatechars:25 }}</h3>
+                <p class="price"><strong>BDT. {{ item.price }}</strong></p>
+                <a href="{% url 'trash_item_details' slug=item.slug %}"
+                   class="view-button">View Details</a>
+              </div>
+            {% else %}
+              <img src="{{ item.product_images.url }}" alt="{{ item.product_name }}">
+              <div class="result-info">
+                <h3>{{ item.product_name|truncatechars:25 }}</h3>
+                <p class="price"><strong> BDT. {{ item.price }} </strong></p>
+                <a href="{% url 'upcycled_product_details' slug=item.slug %}"
+                   class="view-button">View Details</a>
+              </div>
+            {% endif %}
+          </div>
+        {% endfor %}
+      </div>
+
+      <!-- 3) Pagination Controls -->
+      <div class="pagination">
+        {% if page_obj.has_previous %}
+          <a href="?q={{ query }}&type={{ type_filter }}&sort={{ sort }}&page={{ page_obj.previous_page_number }}">
+            ← Prev
+          </a>
+        {% endif %}
+      
+        <span>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+      
+        {% if page_obj.has_next %}
+          <a href="?q={{ query }}&type={{ type_filter }}&sort={{ sort }}&page={{ page_obj.next_page_number }}">
+            Next →
+          </a>
+        {% endif %}
+      </div>
+      
+    {% else %}
+      <div class="no-results">
+        <h2>No results</h2>
+        <p>Try another keyword.</p>
+      </div>
+    {% endif %}
+  </section>
+  <script>
+    (function(){
+      const sortSelect = document.querySelector('select[name="sort"]');
+      if (!sortSelect) return;
+  
+      sortSelect.addEventListener('change', () => {
+        // build new URL preserving q, type, page
+        const url = new URL(window.location.href);
+        url.searchParams.set('sort', sortSelect.value);
+        // whenever you change sort, reset to page 1:
+        url.searchParams.delete('page');
+        window.location.href = url.toString();
+      });
+    })();
+  </script>
+  
+{% include "footer.html" %}
+</body>
+</html>

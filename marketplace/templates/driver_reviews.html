@@ -1,0 +1,61 @@
+{% load static %}
+{% include "header.html" %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>My Reviews – TrashToTreasure</title>
+  <link rel="stylesheet" href="{% static 'css/driver_reviews.css' %}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+<body>
+
+  <section class="product-banner">
+    <h2>Driver Reviews</h2>
+    <p><a href="/driver_dashboard">Home</a> &gt; My Reviews</p>
+  </section>
+  <div class="reviews-container">
+    {% if reviews %}
+      {% for review in reviews %}
+        <div class="review-card">
+          <div class="review-header">
+            <div class="reviewer-info">
+              <div class="avatar">
+                {# Avatar fallback to initial #}
+                <span class="avatar-letter">
+                  {{ review.rated_by.name|default:review.rated_by.username|slice:":1" }}
+                </span>
+              </div>
+              <div class="reviewer-name">
+                {{ review.rated_by.name|default:review.rated_by.username }}
+              </div>
+            </div>
+            <div class="review-rating">
+              {% for i in "12345" %}
+                {% if forloop.counter <= review.rating %}
+                  <i class="fa-solid fa-star"></i>
+                {% else %}
+                  <i class="fa-regular fa-star"></i>
+                {% endif %}
+              {% endfor %}
+              <span class="rating-number">({{ review.rating }}/5)</span>
+            </div>
+          </div>
+  
+          {% if review.comment %}
+            <div class="review-comment">{{ review.comment }}</div>
+          {% endif %}
+          <div class="review-date">{{ review.created_at|date:"F j, Y" }}</div>
+        </div>
+      {% endfor %}
+    {% else %}
+      <p class="no-reviews">No reviews yet.</p>
+    {% endif %}
+  </div>
+  
+  
+{% include "footer.html" %}
+</body>
+</html>

@@ -1,0 +1,89 @@
+{% load static %}
+{% include "header.html" %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Edit Product - TrashToTreasure</title>
+    <link rel="stylesheet" href="{% static 'css/buyer_profile.css' %}">
+</head>
+
+<body>
+
+    <!-- Banner Section -->
+    <section class="product-banner">
+        <h2>Edit Product</h2>
+        <p><a href="/">Home</a> > <a href="{% url 'listed_products' %}">My Listings</a> > Edit Product</p>
+    </section>
+
+    <!-- Edit Product Form Section -->
+    <div class="container">
+        <div class="form-section">
+            <h2>Update Product Details</h2>
+
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                
+                <!-- Product Image Preview -->
+                <div class="profile-pic-container">
+                    {% if product.product_images %}
+                        <img src="{{ product.product_images.url }}" alt="Product Image" class="profile-pic">
+                    {% else %}
+                        <img src="{% static 'images/default_product.jpg' %}" alt="Default Product" class="profile-pic">
+                    {% endif %}
+                    <div class="upload-file">
+                        {{ form.product_images }}
+                    </div>
+                </div>
+
+                <div class="form-grid">
+                    <div class="form-row">
+                        <label for="{{ form.product_name.id_for_label }}">Product Name</label>
+                        {{ form.product_name }}
+                    </div>
+
+                    <div class="form-row">
+                        <label for="{{ form.category.id_for_label }}">Category</label>
+                        {{ form.category }}
+                    </div>
+
+                    <div class="form-row">
+                        <label for="{{ form.description.id_for_label }}">Description</label>
+                        {{ form.description }}
+                    </div>
+
+                    <div class="form-row">
+                        <label for="{{ form.price.id_for_label }}">Price (BDT)</label>
+                        {{ form.price }}
+                    </div>
+
+                    <div class="form-row">
+                        <label for="{{ form.stock_availability.id_for_label }}">Stock Availability</label>
+                        {{ form.stock_availability }}
+                    </div>
+
+                    <div class="form-row">
+                        <label for="{{ form.location.id_for_label }}">Location</label>
+                        {{ form.location }}
+                    </div>
+
+                    <div class="form-row">
+                        <label for="{{ form.tags.id_for_label }}">Tags</label>
+                        {{ form.tags }}
+                    </div>
+                </div>
+
+                <div class="button-container">
+                    <button type="submit">Save Changes</button>
+                    <a href="{% url 'listed_products' %}" class="logout-btn">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</body>
+
+</html>
+
+{% include "footer.html" %}

@@ -1,0 +1,177 @@
+{% load static %}
+{% include "header.html" %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Delivery History</title>
+  <link rel="stylesheet" href="{% static 'css/delivery_history.css' %}">
+</head>
+
+<body>
+    <div class="container">
+
+        <!-- Page Title -->
+        <div class="page-title">
+          <h1>Delivery History</h1>
+        </div>
+      
+        <!-- Active Deliveries Section -->
+        <h2 class="section-title">Active Deliveries</h2>
+        <div class="delivery-table">
+          <table>
+            <thead>
+              <tr>
+                <th>S/No.</th>
+                <th>Product</th>
+                <th>Pickup Point</th>
+                <th>Drop Point</th>
+                <th>Date</th>
+                <th>Status</th>
+                <th>Buyer</th>
+                <th>Contact</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% if active_deliveries %}
+                {% for order in active_deliveries %}
+                  <tr>
+                    <td>{{ forloop.counter }}</td>
+      
+                    <!-- Product(s) with links -->
+                    <td>
+                      {% for item in order.items.all %}
+                        {% if item.content_type.model == 'upcycledproduct' %}
+                          <a href="{% url 'upcycled_product_details' slug=item.item.slug %}">
+                            {{ item.item.product_name }}
+                          </a>
+                        {% else %}
+                          <a href="{% url 'trash_item_details' slug=item.item.slug %}">
+                            {{ item.item.material_name }}
+                          </a>
+                        {% endif %}
+                        {% if not forloop.last %}, {% endif %}
+                      {% endfor %}
+                    </td>
+      
+                    <!-- Pickup Point (location field for both types) -->
+                    <td>
+                      {% for item in order.items.all %}
+                        {{ item.item.location }}
+                        {% if not forloop.last %}, {% endif %}
+                      {% endfor %}
+                    </td>
+      
+                    <!-- Drop Point = shipping address -->
+                    <td>
+                      {{ order.street_address }}, {{ order.city }}, {{ order.state }},
+                      {{ order.zip_code }}, {{ order.country }}
+                    </td>
+      
+                    <!-- Date -->
+                    <td>{{ order.created_at|date:"Y-m-d" }}</td>
+      
+                    <!-- Status -->
+                    <td class="{{ order.delivery_status }}">
+                      {{ order.delivery_status|capfirst }}
+                    </td>
+      
+                    <!-- Buyer Name -->
+                    <td>{{ order.first_name }} {{ order.last_name }}</td>
+      
+                    <!-- Contact -->
+                    <td>{{ order.phone }}</td>
+                  </tr>
+                {% endfor %}
+              {% else %}
+                <tr>
+                  <td colspan="8">No active deliveries.</td>
+                </tr>
+              {% endif %}
+            </tbody>
+          </table>
+        </div>
+      
+        <!-- Completed Deliveries Section -->
+        <h2 class="section-title">Completed Deliveries</h2>
+        <div class="delivery-table">
+          <table>
+            <thead>
+              <tr>
+                <th>S/No.</th>
+                <th>Product</th>
+                <th>Pickup Point</th>
+                <th>Drop Point</th>
+                <th>Date</th>
+                <th>Status</th>
+                <th>Buyer</th>
+                <th>Contact</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% if completed_deliveries %}
+                {% for order in completed_deliveries %}
+                  <tr>
+                    <td>{{ forloop.counter }}</td>
+      
+                    <!-- Product(s) with links -->
+                    <td>
+                      {% for item in order.items.all %}
+                        {% if item.content_type.model == 'upcycledproduct' %}
+                          <a href="{% url 'upcycled_product_details' slug=item.item.slug %}">
+                            {{ item.item.product_name }}
+                          </a>
+                        {% else %}
+                          <a href="{% url 'trash_item_details' slug=item.item.slug %}">
+                            {{ item.item.material_name }}
+                          </a>
+                        {% endif %}
+                        {% if not forloop.last %}, {% endif %}
+                      {% endfor %}
+                    </td>
+      
+                    <!-- Pickup Point -->
+                    <td>
+                      {% for item in order.items.all %}
+                        {{ item.item.location }}
+                        {% if not forloop.last %}, {% endif %}
+                      {% endfor %}
+                    </td>
+      
+                    <!-- Drop Point -->
+                    <td>
+                      {{ order.street_address }}, {{ order.city }}, {{ order.state }},
+                      {{ order.zip_code }}, {{ order.country }}
+                    </td>
+      
+                    <!-- Date -->
+                    <td>{{ order.created_at|date:"Y-m-d" }}</td>
+      
+                    <!-- Status -->
+                    <td class="{{ order.delivery_status }}">
+                      {{ order.delivery_status|capfirst }}
+                    </td>
+      
+                    <!-- Buyer Name -->
+                    <td>{{ order.first_name }} {{ order.last_name }}</td>
+      
+                    <!-- Contact -->
+                    <td>{{ order.phone }}</td>
+                  </tr>
+                {% endfor %}
+              {% else %}
+                <tr>
+                  <td colspan="8">No completed deliveries.</td>
+                </tr>
+              {% endif %}
+            </tbody>
+          </table>
+        </div>
+      
+    </div>
+      
+
+</body>
+</html>
+{% include "footer.html" %}

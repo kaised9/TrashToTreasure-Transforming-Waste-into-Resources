@@ -1,0 +1,240 @@
+.product-banner {
+    text-align: center;
+    padding: 50px 0;
+    background: url('/static/images/bg.png') no-repeat center;
+    background-size: cover;
+    color: #000;
+}
+
+.product-banner h2 {
+    font-size: 40px;
+    margin: 0;
+}
+
+.product-banner p {
+    margin: 10px 0 0;
+}
+
+.product-banner a {
+    color: #000;
+    text-decoration: none;
+}
+
+.container {
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 50px;
+    background: #fff;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+.form-section {
+    text-align: center;
+}
+
+h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+label {
+    font-weight: bold;
+    text-align: left;
+}
+
+input, textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.form-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.form-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.form-row label {
+    width: 30%;
+    font-weight: bold;
+    text-align: left;
+}
+
+.form-row input, 
+.form-row select, 
+.form-row textarea {
+    width: 70%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+/* Profile picture preview and upload */
+.profile-pic-container {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.profile-pic {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 4px solid #b08a51;
+    margin-bottom: 10px;
+}
+
+.upload-file {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    justify-content: space-between; /* optional, if you want space between filename and "Change" */
+}
+
+
+
+.my-orders-banner {
+    text-align: center;
+    padding: 40px 0 20px;
+    background-color: #f7f7f7;
+    border-bottom: 2px solid #e0e0e0;
+}
+
+.my-orders-banner h2 {
+    font-size: 2.5rem;
+    margin-bottom: 8px;
+    color: #2b2b2b;
+}
+
+.my-orders-banner p a {
+    text-decoration: none;
+    color: #007bff;
+}
+
+.my-orders-container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 30px 20px;
+}
+
+.order-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.order-card {
+    background-color: #ffffff;
+    padding: 25px 30px;
+    border: 1px solid #e3e3e3;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+    transition: transform 0.2s ease;
+}
+
+.order-card:hover {
+    transform: scale(1.01);
+}
+
+.order-card h3 {
+    color: #444;
+    margin-bottom: 10px;
+    font-size: 1.3rem;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 6px;
+}
+
+.order-card p {
+    margin: 4px 0;
+    font-size: 0.95rem;
+    color: #333;
+}
+
+.order-items {
+    margin-top: 15px;
+    padding-top: 10px;
+    border-top: 1px solid #ccc;
+}
+
+.order-item {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    padding: 8px 0;
+    border-bottom: 1px dashed #ddd;
+}
+
+.order-item:last-child {
+    border-bottom: none;
+}
+
+.order-item p {
+    margin: 0;
+    font-size: 0.92rem;
+    color: #555;
+}
+
+.order-total {
+    margin-top: 15px;
+    font-weight: bold;
+    color: #222;
+    font-size: 1rem;
+}
+
+.view-details-btn {
+    display: inline-block;
+    margin-top: 15px;
+    padding: 10px 16px;
+    background-color: #28a745;
+    color: #fff;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: background-color 0.3s ease;
+}
+
+.view-details-btn:hover {
+    background-color: #218838;
+}
+
+.cancel-order-btn {
+    padding: 10px 16px;
+    background-color: #dc3545;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.3s ease;
+}
+
+.cancel-order-btn:hover {
+    background-color: #c82333;
+}
+
+.cancel-disabled-btn {
+    padding: 10px 16px;
+    background-color: #6c757d;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: not-allowed;
+    font-weight: 500;
+}
+

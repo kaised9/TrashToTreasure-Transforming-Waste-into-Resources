@@ -1,0 +1,116 @@
+{% load static %}
+{% include "header.html" %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Cart - TrashToTreasure</title>
+    <link rel="stylesheet" href="{% static 'css/cart.css' %}">
+</head>
+
+<body>
+
+    <!-- Cart Banner (Same as Contact Page) -->
+    <section class="cart-banner">
+        <h2>Cart</h2>
+        <p><a href="/">Home</a> > Cart</p>
+    </section>
+
+    <!-- Main Cart Section -->
+    <div class="cart-container">
+
+        <!-- Cart Table -->
+        <table class="cart-table">
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Subtotal</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in cart_items %}
+                <tr>
+                    <td class="product-info">
+                      <span>
+                        {% if item.content_type.model == 'upcycledproduct' %}
+                            <a href="{% url 'upcycled_product_details' slug=item.item.slug %}">
+                                {{ item.item.product_name }}
+                            </a>
+                        {% elif item.content_type.model == 'trashitem' %}
+                            <a href="{% url 'trash_item_details' slug=item.item.slug %}">
+                                {{ item.item.material_name }}
+                            </a>
+                        {% else %}
+                            Unknown Item
+                        {% endif %}
+                      </span>
+                    </td>
+                    <td>BDT. {{ item.item.price }}</td>
+                    <td>
+                      <input type="number" value="{{ item.quantity }}" min="1" max="{{ item.item.stock_availability }}" disabled>
+                    </td>
+                    <td>
+                      BDT. {{ item.subtotal }}
+                      <form method="post" action="{% url 'remove_from_cart' item.id %}" style="display:inline;">
+                        {% csrf_token %}
+                        <button class="remove-btn" title="Remove from cart">
+                            <svg xmlns="http://www.w3.org/2000/svg" height="18" width="18" viewBox="0 0 24 24" fill="#c0392b">
+                                <path d="M3 6h18v2H3zm3 3h12v12H6zM8 10v10h2V10H8zm4 0v10h2V10h-2z"/>
+                            </svg>
+                        </button>
+                      </form>
+                    </td>
+                </tr>
+                {% empty %}
+                  <tr><td colspan="4">Your cart is empty.</td></tr>
+                {% endfor %}
+            </tbody>
+              
+        </table>
+
+        <!-- Cart Totals -->
+        <div class="cart-totals">
+            <h3>Cart Totals</h3>
+            <div class="totals-item">
+                <span>Subtotal</span>
+                <span>BDT. {{ total }}</span>
+            </div>
+            <div class="totals-item total">
+                <span>Total</span>
+                <span>BDT. {{ total }}</span>
+            </div>
+            <button class="checkout-btn" onclick="location.href='/checkout/'">Check Out</button>
+        </div>
+
+    </div>
+
+    <!-- Footer (Same as Contact Page) -->
+    <footer class="cart-footer">
+        <div class="footer-item">
+            <h4>🌟 High Quality</h4>
+            <p>crafted from top materials</p>
+        </div>
+
+        <div class="footer-item">
+            <h4>🛡️ Warranty Protection</h4>
+            <p>Over 2 years</p>
+        </div>
+
+        <div class="footer-item">
+            <h4>🚚 Free Shipping</h4>
+            <p>Order over 15000/=</p>
+        </div>
+
+        <div class="footer-item">
+            <h4>📞 24/7 Support</h4>
+            <p>Dedicated support</p>
+        </div>
+    </footer>
+
+</body>
+
+</html>
+{% include "footer.html" %}

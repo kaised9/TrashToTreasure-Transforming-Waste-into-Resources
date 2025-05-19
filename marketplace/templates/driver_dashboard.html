@@ -1,0 +1,167 @@
+{% load static %}
+{% include "header.html" %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Green-Runner Dashboard</title>
+    <link rel="stylesheet" href="{% static 'css/driver_dashboard.css' %}">
+</head>
+
+<body>
+    <div class="container">
+
+        <!-- Welcome Section -->
+        <div class="welcome-section">
+            <div class="welcome-text">
+                <h1>Welcome!<br>Green-Runner.</h1>
+            </div>
+            <div class="delivery-image">
+                <img src="{% static 'images/delivery-guy.png' %}" alt="Delivery Guy">
+            </div>
+        </div>
+
+        <!-- Schedule Section -->
+        <h2 class="schedule-title">YOUR SCHEDULES</h2>
+        <div class="schedule-table">
+        <table>
+            <thead>
+                <tr>
+                    <th>S/No.</th>
+                    <th>Product</th>
+                    <th>Pickup Point</th>
+                    <th>Drop Point</th>
+                    <th>Payment Status</th>
+                    <th>Delivery Status</th>
+                    <th>Buyer Name</th>
+                    <th>Contact</th>
+                    <th>Expected Delivery</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if orders %}
+                  {% for order in orders %}
+                    <tr>
+                      <td>{{ forloop.counter }}</td>
+              
+                      <!-- Product(s) -->
+                      <td>
+                        {% for item in order.items.all %}
+                          {% if item.content_type.model == 'upcycledproduct' %}
+                            <a href="{% url 'upcycled_product_details' slug=item.item.slug %}">
+                              {{ item.item.product_name }}
+                            </a>
+                          {% else %}
+                            <a href="{% url 'trash_item_details' slug=item.item.slug %}">
+                              {{ item.item.material_name }}
+                            </a>
+                          {% endif %}
+                          {% if not forloop.last %}, {% endif %}
+                        {% endfor %}
+                      </td>
+              
+                      <!-- Pickup Point -->
+                      <td>
+                        {% for item in order.items.all %}
+                          {% if item.content_type.model == 'trashitem' %}
+                            {{ item.item.location }}
+                          {% endif %}
+                          {% if item.content_type.model == 'upcycledproduct' %}
+                            {{ item.item.location }}
+                          {% endif %}
+                        {% endfor %}
+                      </td>
+              
+                      <!-- Drop Point -->
+                      <td>
+                        {{ order.street_address }}, {{ order.city }}, {{ order.state }},
+                        {{ order.zip_code }}, {{ order.country }}
+                      </td>
+              
+                      <!-- Payment Status -->
+                      <td>
+                        {% if order.payment_method == 'cod' %}
+                          Cash On Delivery
+                        {% elif order.payment_method == 'sslcommerz' %}
+                          Paid
+                        {% else %}
+                          {{ order.payment_status|capfirst }}
+                        {% endif %}
+                      </td>
+              
+                      <!-- Delivery Status -->
+                      <td>
+                        <form method="POST" action="{% url 'update_delivery_status' order.id %}">
+                          {% csrf_token %}
+                          <select
+                            name="delivery_status"
+                            class="status-dropdown {{ order.delivery_status }}"
+                            onchange="this.form.submit()"
+                            >
+                            <option value="packed"     {% if order.delivery_status == 'packed'     %}selected{% endif %}>Packed</option>
+                            <option value="on_the_way" {% if order.delivery_status == 'on_the_way' %}selected{% endif %}>On the Way</option>
+                            <option value="delivered"  {% if order.delivery_status == 'delivered'  %}selected{% endif %}>Delivered</option>
+                            <option value="returned"   {% if order.delivery_status == 'returned'   %}selected{% endif %}>Returned</option>
+                          </select>
+
+                        </form>
+                      </td>
+              
+                      <!-- Buyer Info -->
+                      <td>{{ order.first_name }} {{ order.last_name }}</td>
+                      <td>{{ order.phone }} , {{ order.email }}</td>
+                      <td>
+                        <form method="POST" action="{% url 'update_expected_delivery' order.id %}">
+                          {% csrf_token %}
+                          <input
+                            type="date"
+                            name="expected_delivery"
+                            value="{{ order.expected_delivery|date:'Y-m-d' }}"
+                            onchange="this.form.submit()"
+                          >
+                        </form>
+                      </td>
+                      
+                    </tr>
+                  {% endfor %}
+                {% else %}
+                  <tr>
+                    <td colspan="9">No deliveries assigned yet.</td>
+                  </tr>
+                {% endif %}
+            </tbody>
+              
+        </table>
+        </div>
+
+
+        <!-- Show More Button -->
+        <div class="show-more">
+          <a href="{% url 'delivery_history' %}">
+              <button>Show More</button>
+          </a>
+        </div>
+      
+
+    </div>
+</body>
+
+</html>
+
+<!-- Custom CSS for status colors -->
+<script>
+    function updateStatus(selectElement) {
+        // Get selected option and value
+        const selectedStatus = selectElement.value;
+
+        // Clear all previous status classes
+        selectElement.className = 'status-dropdown';
+
+        // Add the new status class to apply the correct color
+        selectElement.classList.add(selectedStatus);
+    }
+</script>
+{% include "footer.html" %}

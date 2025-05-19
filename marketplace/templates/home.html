@@ -1,0 +1,65 @@
+{% include "header.html" %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Home - TrashToTreasure</title>
+    <link rel="stylesheet" href="/static/css/home.css">
+</head>
+<body>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <img src="/static/images/homebg.png" alt="Illustration of recycling" class="hero-image">
+        <div class="info-boxes">
+            <div class="box">BUY TRASH & <br>GET IT DELIVERED</div>
+            <div class="box">MAKE RECYCLED <br>PRODUCT WITH IT</div>
+            <div class="box">WE'LL DELIVER IT <br>TO YOUR CUSTOMER</div>
+        </div>
+    </section>
+
+    <!-- Upcycled Products -->
+    <section class="products">
+        <h2>Upcycled Products</h2>
+        <div class="product-grid">
+            {% for product in featured_products %}
+                <div class="product-card">
+                    <img src="{{ product.product_images.url }}" alt="{{ product.product_name }}">
+                    <p>{{ product.product_name }}</p>
+                    <p class="price">BDT {{ product.price }}</p>
+                </div>
+            {% endfor %}
+        </div>
+        <div style="text-align: center; margin: 40px 0;">
+            <a href="{% url 'upcycled_products' %}" class="button-link">
+                <button class="show-more">Show More</button>
+            </a>
+        </div>
+    </section>
+
+
+    <!-- Trash Materials -->
+    <section class="materials">
+        <h2>Trash Materials</h2>
+        <div class="material-grid">
+            {% for trash in featured_trash_items %}
+                <div class="material-card">
+                    <img src="{{ trash.images.url }}" alt="{{ trash.name }}">
+                    <p>{{ trash.name }}</p>
+                    <p class="price">BDT {{ trash.price }}</p>
+                </div>
+            {% endfor %}
+        </div>
+        <div style="text-align: center; margin: 40px 0;">
+            <a href="{% url 'trash_item_list' %}" class="button-link">
+                <button class="show-more">Show More</button>
+            </a>
+        </div>
+    </section>
+
+</body>
+</html>
+    
+    {% include "footer.html" %}

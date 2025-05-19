@@ -1,0 +1,217 @@
+{% load static %}
+{% include "header.html" %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>My Listed Products - TrashToTreasure</title>
+    <link rel="stylesheet" href="{% static 'css/buyer_profile.css' %}">
+    <style>
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            padding: 40px;
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        .product-card {
+            background: #fff;
+            border-radius: 20px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            overflow: hidden;
+            text-align: center;
+            transition: 0.3s ease-in-out;
+        }
+
+        .product-card img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+        }
+
+        .product-card h3 {
+            margin: 15px 10px 5px;
+            font-size: 20px;
+            color: #2c3e50;
+        }
+
+        .product-card p {
+            margin: 0 10px 10px;
+            color: #555;
+        }
+
+        .view-button {
+            display: inline-block;
+            margin: 10px 0 20px;
+            padding: 8px 16px;
+            background-color: #b08a51;
+            color: #fff;
+            border-radius: 8px;
+            text-decoration: none;
+        }
+
+        .view-button:hover {
+            background-color: #8a6f3f;
+        }
+
+        .product-banner {
+            text-align: center;
+            background-color: #e0f7ec;
+            padding: 40px 0;
+        }
+
+        .product-banner h2 {
+            font-size: 36px;
+            color: #2c3e50;
+        }
+
+        .product-banner p {
+            color: #555;
+            margin-top: 5px;
+        }
+
+        .pagination-wrapper {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            margin: 30px 0;
+        }
+        
+        .pagination {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .pagination a,
+        .pagination strong {
+            padding: 8px 14px;
+            background-color:rgb(0, 0, 0);
+            color: #fff;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .pagination a:hover {
+            background-color:rgba(0, 0, 0, 0.75);
+        }
+        
+        .pagination strong {
+            background-color: #8a6f3f;
+        }
+
+        .button-pair {
+            display: flex;
+            justify-content: center;
+            margin-top: 4px;
+            margin-bottom: 20px;
+        }
+        
+          .button-pair a {
+            text-decoration: none;
+          }
+          .button-pair a:hover {
+            text-decoration: none;
+          }
+
+        .edit-btn, .delete-btn {
+            padding: 6px 12px;
+            border-radius: 5px;
+            text-decoration: none;
+            color: white;
+            font-size: 14px;
+            margin-right: 8px;
+          }
+          .edit-btn   { background-color: #3498db; }
+          .delete-btn { background-color: #e74c3c; }
+          .edit-btn:hover   { background-color: #2980b9; }
+          .delete-btn:hover { background-color: #c0392b; }
+          
+          .message-container {
+            text-align: center;
+            margin: 20px auto;
+            width: 80%;
+        }
+        
+        .alert {
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            font-weight: 500;
+            animation: fadeOut 4s forwards;
+        }
+        
+        .alert.success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        @keyframes fadeOut {
+            0% { opacity: 1; }
+            75% { opacity: 1; }
+            100% { opacity: 0; display: none; }
+        }
+        
+    </style>
+</head>
+<body>
+
+    {% if messages %}
+        <div class="message-container">
+            {% for message in messages %}
+                <div class="alert {{ message.tags }}">{{ message }}</div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+
+<section class="product-banner">
+    <h2>My Listed Products</h2>
+    <p><a href="/">Home</a> >  My Listings</p>
+</section>
+
+<div class="products-grid">
+    {% for product in page_obj %}
+        <div class="product-card">
+            <img src="{{ product.product_images.url }}" alt="{{ product.product_name }}">
+            <h3>{{ product.product_name }}</h3>
+            <p><strong>BDT {{ product.price }}</strong></p>
+            <a href="{% url 'upcycled_product_details' product.slug %}" class="view-button">View Details</a>
+            <div class="button-pair">
+                <a href="{% url 'edit_product'   product.pk %}" class="edit-btn">Edit</a>
+                <a href="{% url 'delete_product' product.pk %}" class="delete-btn">Delete</a>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+<div class="pagination-wrapper">
+    <div class="pagination">
+        {% if page_obj.has_previous %}
+            <a href="?page=1">&laquo; First</a>
+            <a href="?page={{ page_obj.previous_page_number }}">Previous</a>
+        {% endif %}
+
+        {% for num in page_obj.paginator.page_range %}
+            {% if page_obj.number == num %}
+                <strong style="margin: 0 5px;">{{ num }}</strong>
+            {% elif num >= page_obj.number|add:'-2' and num <= page_obj.number|add:'2' %}
+                <a href="?page={{ num }}">{{ num }}</a>
+            {% endif %}
+        {% endfor %}
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">Next</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}">Last &raquo;</a>
+        {% endif %}
+    </div>
+</div>
+
+
+</body>
+</html>
+{% include "footer.html" %}

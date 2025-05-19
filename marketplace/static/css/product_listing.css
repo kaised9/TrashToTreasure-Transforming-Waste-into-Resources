@@ -1,0 +1,104 @@
+.product-banner {
+    text-align: center;
+    padding: 50px 0;
+    background: url('/static/images/bg.png') no-repeat center;
+    background-size: cover;
+    color: #000;
+}
+
+.product-banner h2 {
+    font-size: 40px;
+    margin: 0;
+}
+
+.product-banner p {
+    margin: 10px 0 0;
+}
+
+.product-banner a {
+    color: #000;
+    text-decoration: none;
+}
+
+.container {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 20px;
+    background: #fff;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+.form-section {
+    text-align: center;
+}
+
+h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+label {
+    font-weight: bold;
+    text-align: left;
+}
+
+input, textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+button {
+    padding: 12px;
+    background: #b08a51;;
+    color: white;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+button:hover {
+    background: #8a6f3f;
+}
+
+.form-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 2px;
+    text-align: left;
+}
+
+.form-label {
+    flex: 1;
+    font-weight: bold;
+    padding-top: 10px;
+}
+
+.form-input {
+    flex: 2;
+}
+
+.form-input input,
+.form-input textarea,
+.form-input select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.form-input textarea {
+    height: 110px;
+}
+

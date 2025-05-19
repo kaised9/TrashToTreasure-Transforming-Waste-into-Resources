@@ -1,0 +1,118 @@
+{% load static %}
+{% include "header.html" %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Artisan Profile - TrashToTreasure</title>
+    <link rel="stylesheet" href="{% static 'css/buyer_profile.css' %}">
+
+</head>
+<body>
+
+<!-- Banner Section -->
+<section class="product-banner">
+    <h2>Artisan Profile</h2>
+    <p><a href="/">Home</a> > Artisan Profile</p>
+</section>
+
+<!-- Profile Form Section -->
+<div class="container">
+    <div class="form-section">
+        <h2>Update Your Profile</h2>
+    
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+        
+            <!-- Profile Picture -->
+            <div class="profile-pic-container">
+                {% if profile_form.instance.profile_picture %}
+                    <img src="{{ profile_form.instance.profile_picture.url }}" alt="Profile Picture" class="profile-pic">
+                {% else %}
+                    <img src="{% static 'images/default_profile.jpg' %}" alt="Default Profile Picture" class="profile-pic">
+                {% endif %}
+                <div class="upload-file">
+                    {{ profile_form.profile_picture }}
+                </div>
+            </div>
+        
+            <!-- Form Fields -->
+            <div class="form-grid">
+                <div class="form-row">
+                    <label for="{{ user_form.username.id_for_label }}">Username</label>
+                    {{ user_form.username }}
+                </div>
+
+                <div class="form-row">
+                    <label for="{{ user_form.email.id_for_label }}">Email</label>
+                    {{ user_form.email }}
+                </div>
+
+                <div class="form-row">
+                    <label for="{{ user_form.phone.id_for_label }}">Phone Number</label>
+                    {{ user_form.phone }}
+                </div>
+
+                <div class="form-row">
+                    <label for="{{ user_form.name.id_for_label }}">Full Name</label>
+                    {{ user_form.name }}
+                </div>
+
+                <div class="form-row">
+                    <label for="{{ profile_form.location.id_for_label }}">Location</label>
+                    {{ profile_form.location }}
+                </div>
+
+                <div class="form-row">
+                    <label for="{{ profile_form.bio.id_for_label }}">Bio</label>
+                    {{ profile_form.bio }}
+                </div>
+
+                <div class="form-row">
+                    <label>Total Products Listed</label>
+                    <input type="text" value="{{ profile_form.instance.product_count }}" readonly>
+                </div>
+
+                <div class="form-row">
+                    <label>Total Sales (৳)</label>
+                    <input type="text" value="{{ profile_form.instance.total_sales }}" readonly>
+                </div>
+
+                <div class="form-row">
+                    <label>Average Rating</label>
+                    <input type="text" value="{{ profile_form.instance.rating|floatformat:1 }}" readonly>
+                </div>
+
+                <div class="form-row">
+                    <label>Total Orders</label>
+                    <input type="text" value="{{ profile_form.instance.order_number }}" readonly>
+                </div>
+
+                <div class="form-row">
+                    <label>Join Date</label>
+                    <input type="text" value="{{ request.user.date_joined }}" readonly>
+                </div>
+
+                <div class="form-row">
+                    <label>Account Status</label>
+                    <input type="text" value="{{ user_form.account_status.value }}" readonly>
+                </div>
+
+                <div class="button-pair">
+                    <a href="{% url 'password_change' %}" class="change-password-btn">Change Password</a>
+                    <a href="{% url 'product_listing' %}" class="listing-btn">List a Product</a>
+                </div>
+
+            </div>
+
+            <div class="button-container">
+                <button type="submit">Save Changes</button>
+                <a href="{% url 'logout' %}" class="logout-btn">Logout</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>
+{% include "footer.html" %}

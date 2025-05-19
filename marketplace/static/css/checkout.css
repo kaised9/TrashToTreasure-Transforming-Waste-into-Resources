@@ -1,0 +1,128 @@
+/* checkout.css */
+
+.checkout-container {
+    max-width: 1200px;
+    margin: auto;
+    padding: 40px 20px;
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: space-between;
+    gap: 40px;
+}
+
+.checkout-content {
+    display: flex; /* Use flexbox to align children side by side */
+    justify-content: space-between; /* Space out billing and summary */
+}
+
+
+.checkout-title {
+    font-size: 32px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.checkout-banner {
+    text-align: center;
+    padding: 50px 0;
+    background: url('/static/images/bg.png') no-repeat center;
+    background-size: cover;
+    color: #000;
+}
+
+.checkout-banner h2 {
+    font-size: 40px;
+    margin: 0;
+}
+
+.checkout-banner p {
+    margin: 10px 0 0;
+}
+
+.breadcrumb {
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 40px;
+}
+
+/* Billing Details */
+.billing-details h3 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    width: 65%;
+}
+
+.billing-form {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.form-group input, .form-group select {
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+/* Order Summary */
+.order-summary {
+    width: 35%;
+    background: #f9f9f9;
+    padding: 30px;
+    border-radius: 12px;
+}
+
+.order-summary h3 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.product-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.totals p {
+    display: flex;
+    justify-content: space-between;
+    font-size: 18px;
+}
+
+.total-price {
+    color: #d09a00;
+    font-weight: bold;
+}
+
+.payment-info {
+    margin: 20px 0;
+    font-size: 14px;
+    color: #555;
+}
+
+.place-order-btn {
+    width: 100%;
+    padding: 15px;
+    font-size: 18px;
+    color: white;
+    background-color: #000;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+.place-order-btn:hover {
+    background-color: #333;
+}

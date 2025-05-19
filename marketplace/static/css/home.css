@@ -1,0 +1,99 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background-color: #ffffff;
+}
+
+.hero {
+    text-align: center;
+    padding: 40px 20px;
+}
+
+.hero-image {
+    width: 100%;
+    max-width: 500px;
+}
+
+.info-boxes {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 30px;
+}
+
+.box {
+    border: 5px solid black;
+    padding: 15px;
+    border-radius: 10px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.products, .materials {
+    padding: 40px 20px;
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.product-grid, .material-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.product-card, .material-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    text-align: center;
+    padding: 15px;
+}
+
+.product-card img, .material-card img {
+    width: fit-content;
+    height: 260px;
+    border-radius: 8px;
+}
+
+.price {
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.show-more {
+    display: block;
+    margin: 30px auto;
+    padding: 10px 20px;
+    background-color: black;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    text-decoration: none;       /* No underline */
+}
+
+.show-more:hover {
+    opacity: 0.8;
+    text-decoration: none;       /* No underline on hover */
+}
+
+a.button-link {
+    text-decoration: none;       /* No underline */
+    color: white;                /* Text color */
+}
+
+a.button-link:visited,
+a.button-link:active,
+a.button-link:hover {
+    color: white;                /* Keep text white always */
+    text-decoration: none;       /* No underline on any state */
+}

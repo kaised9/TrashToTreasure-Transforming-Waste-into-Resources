@@ -1,0 +1,148 @@
+{% load static %}
+{% include "header.html" %}
+{% load custom_filters %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Write Review - TrashToTreasure</title>
+    <link rel="stylesheet" href="{% static 'css/buyer_profile.css' %}">
+    <link rel="stylesheet" href="{% static 'css/write_review.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+</head>
+<body>
+
+<!-- Banner Section -->
+<section class="product-banner">
+    <h2>Write Review</h2>
+    <p><a href="/ ">Home</a> &gt; Write Review for Order #{{ order.id }}</p>
+</section>
+
+<div class="review-container">
+  <h2>Write Reviews for Order #{{ order.id }}</h2>
+  <form method="post">
+    {% csrf_token %}
+
+    {% for product in reviewable_items %}
+        <div class="review-block">
+            <h3>
+                {% if product|model_name == 'upcycledproduct' %}
+                    <a href="{% url 'upcycled_product_details' slug=product.slug %}">
+                        {{ product.product_name }}
+                    </a>
+                {% elif product|model_name == 'trashitem' %}
+                    <a href="{% url 'trash_item_details' slug=product.slug %}">
+                        {{ product.material_name }}
+                    </a>
+                {% else %}
+                    Unknown Item
+                {% endif %}
+            </h3>
+
+            {% if product|model_name == 'upcycledproduct' %}
+                {% if product.product_images %}
+                    <div class="item-image">
+                        <img src="{{ product.product_images.url }}" alt="{{ product.product_name }}">
+                    </div>
+                {% endif %}
+            {% elif product|model_name == 'trashitem' %}
+                {% if product.images %}
+                    <div class="item-image">
+                        <img src="{{ product.images.url }}" alt="{{ product.material_name }}">
+                    </div>
+                {% endif %}
+            {% endif %}
+
+
+            
+        <div class="stars" data-index="{{ forloop.counter0 }}">
+            {% for i in "12345" %}
+                <span class="star" data-value="{{ forloop.counter }}"><i class="fa-regular fa-star"></i></span>
+            {% endfor %}
+            <input type="hidden" name="rating_{{ forloop.counter0 }}" id="rating_{{ forloop.counter0 }}">
+        </div>
+
+        <textarea name="comment_{{ forloop.counter0 }}"
+                  placeholder="Write your comments (optional)"></textarea>
+      </div>
+    {% endfor %}
+
+    {% if driver_pending and driver %}
+        <div class="review-block">
+            <h3>Delivery by {{ driver.user.name }}</h3>
+
+            <div class="stars" data-driver="true">
+                {% for i in "12345" %}
+                    <span class="star" data-value="{{ forloop.counter }}"><i class="fa-regular fa-star"></i></span>
+                {% endfor %}
+                <input type="hidden" name="rating_driver" id="rating_driver">
+            </div>
+            <textarea name="comment_driver"
+                    placeholder="Comment on delivery (optional)"></textarea>
+        </div>
+    {% endif %}
+
+
+    <button type="submit" class="submit-review-btn">Submit Reviews</button>
+  </form>
+</div>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const starBlocks = document.querySelectorAll('.stars');
+        
+        starBlocks.forEach(block => {
+            const stars = block.querySelectorAll('.star');
+            const hiddenInput = block.querySelector('input[type="hidden"]');
+        
+            stars.forEach((star, index) => {
+                star.addEventListener('mouseover', function() {
+                    stars.forEach((s, i) => {
+                        if (i <= index) {
+                            s.querySelector('i').classList.add('fa-solid');
+                            s.querySelector('i').classList.remove('fa-regular');
+                        } else {
+                            s.querySelector('i').classList.add('fa-regular');
+                            s.querySelector('i').classList.remove('fa-solid');
+                        }
+                    });
+                });
+    
+                star.addEventListener('mouseout', function() {
+                    stars.forEach((s, i) => {
+                        if (s.classList.contains('selected')) {
+                            s.querySelector('i').classList.add('fa-solid');
+                            s.querySelector('i').classList.remove('fa-regular');
+                        } else {
+                            s.querySelector('i').classList.add('fa-regular');
+                            s.querySelector('i').classList.remove('fa-solid');
+                        }
+                    });
+                });
+        
+                star.addEventListener('click', function() {
+                    hiddenInput.value = star.getAttribute('data-value');
+                    stars.forEach((s, i) => {
+                        if (i <= index) {
+                            s.classList.add('selected');
+                            s.querySelector('i').classList.add('fa-solid');
+                            s.querySelector('i').classList.remove('fa-regular');
+                        } else {
+                            s.classList.remove('selected');
+                            s.querySelector('i').classList.add('fa-regular');
+                            s.querySelector('i').classList.remove('fa-solid');
+                        }
+                    });
+                });
+            });
+        });
+    });    
+    </script>
+    
+
+</body>
+</html>
+
+{% include "footer.html" %}

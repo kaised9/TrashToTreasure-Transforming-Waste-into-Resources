@@ -1,0 +1,118 @@
+{% load static %}
+{% include "header.html" %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Enlist Product - TrashToTreasure</title>
+    <link rel="stylesheet" href="{% static 'css/product_listing.css' %}">
+</head>
+
+<body>
+
+    <!-- Banner Section -->
+    <section class="product-banner">
+        <h2>Product Listing</h2>
+        <p><a href="/">Home</a> > Enlist Product</p>
+    </section>
+
+    <!-- Form Section -->
+    <div class="container">
+        <div class="form-section">
+            <h2>Product Details</h2>
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.non_field_errors }}
+              
+                <div class="form-row">
+                  <div class="form-label">
+                    {{ form.product_name.label_tag }}
+                  </div>
+                  <div class="form-input">
+                    {{ form.product_name }}
+                    {{ form.product_name.errors }}
+                  </div>
+                </div>
+                
+                <div class="form-row">
+                  <div class="form-label">
+                    {{ form.category.label_tag }}
+                  </div>
+                  <div class="form-input">
+                    {{ form.category }}
+                    {{ form.category.errors }}
+                  </div>
+                </div>
+                
+                <div class="form-row">
+                  <div class="form-label">
+                    {{ form.description.label_tag }}
+                  </div>
+                  <div class="form-input">
+                    {{ form.description }}
+                    {{ form.description.errors }}
+                  </div>
+                </div>
+                
+                <div class="form-row">
+                  <div class="form-label">
+                    {{ form.price.label_tag }}
+                  </div>
+                  <div class="form-input">
+                    {{ form.price }}
+                    {{ form.price.errors }}
+                  </div>
+                </div>
+                
+                <div class="form-row">
+                  <div class="form-label">
+                    {{ form.stock_availability.label_tag }}
+                  </div>
+                  <div class="form-input">
+                    {{ form.stock_availability }}
+                    {{ form.stock_availability.errors }}
+                  </div>
+                </div>
+                
+                <div class="form-row">
+                  <div class="form-label">
+                    {{ form.product_images.label_tag }}
+                  </div>
+                  <div class="form-input">
+                    {{ form.product_images }}
+                    {{ form.product_images.errors }}
+                  </div>
+                </div>
+                
+                <div class="form-row">
+                  <div class="form-label">
+                    {{ form.location.label_tag }}
+                  </div>
+                  <div class="form-input">
+                    {{ form.location }}
+                    {{ form.location.errors }}
+                  </div>
+                </div>
+                
+                <div class="form-row">
+                  <div class="form-label">
+                    {{ form.tags.label_tag }}
+                  </div>
+                  <div class="form-input">
+                    {{ form.tags }}
+                    {{ form.tags.errors }}
+                  </div>
+                </div>
+                
+              
+                <button type="submit">Submit Product</button>
+              </form>
+              
+        </div>
+    </div>
+
+</body>
+
+</html>
+{% include "footer.html" %}

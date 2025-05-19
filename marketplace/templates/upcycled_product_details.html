@@ -1,0 +1,152 @@
+{% load static %}
+{% include "header.html" %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>{{ product.product_name }} - TrashToTreasure</title>
+    <link rel="stylesheet" href="{% static 'css/buyer_profile.css' %}">
+    <link rel="stylesheet" href="{% static 'css/upcycled_product_details.css' %}">
+</head>
+<body>
+
+  {% if messages %}
+    <div class="messages">
+      {% for message in messages %}
+        <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
+          {{ message }}
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+
+<!-- Banner Section -->
+<section class="product-banner">
+    <h2>{{ product.product_name }}</h2>
+    <p><a href="/">Home</a> > Product Details</p>
+</section>
+
+<!-- Product Detail Section -->
+<div class="product-container">
+    <div class="product-flexbox">
+      
+      <!-- LEFT: IMAGE -->
+      <div class="left-column">
+        <img src="{{ product.product_images.url }}" alt="{{ product.product_name }}" class="product-image">
+      </div>
+  
+      <!-- RIGHT: FORM -->
+      {% if user.is_authenticated and user.role == 'buyer' %}
+      <div class="right-column">
+        <form method="POST" action="{% url 'add_to_cart' 'upcycledproduct' product.id %}">
+          {% csrf_token %}
+  
+          <div class="quantity-controls">
+            <button type="button" onclick="changeQty(-1)">-</button>
+            <input type="number" name="quantity" id="quantity" value="1" min="1" max="{{ product.stock_availability }}">
+            <button type="button" onclick="changeQty(1)">+</button>
+          </div>
+  
+          <div class="purchase-buttons">
+            <button type="submit" name="action" value="add" class="add-to-cart">Add to Cart</button>
+            <button type="submit" name="action" value="buy" class="buy-now">Buy Now</button>
+          </div>          
+  
+          <input type="hidden" name="next" value="{{ request.path }}">
+        </form>
+      </div>
+      {% endif %}
+      
+    </div>
+  
+  <script>
+    function changeQty(val) {
+      let input = document.getElementById('quantity');
+      let current = parseInt(input.value);
+      let max = parseInt(input.max);
+      let min = parseInt(input.min);
+      let newVal = current + val;
+      if (newVal >= min && newVal <= max) {
+        input.value = newVal;
+      }
+    }
+  </script>
+  
+
+    <h1 class="product-title">{{ product.product_name }}</h1>
+
+    <p class="product-meta">
+        <span class="product-label">By:</span>
+            {{ product.artisan.name }}
+    </p>
+
+    <div class="average-rating-container">
+      <p>Average Rating:</p>
+      <div class="product-rating">
+        {% for i in "12345" %}
+            {% if forloop.counter <= product.rating %}
+                <i class="fa-solid fa-star"></i>
+            {% else %}
+                <i class="fa-regular fa-star"></i>
+            {% endif %}
+        {% endfor %}
+        <span class="rating-number"><strong>({{ product.rating }}/5)</strong></span>
+      </div>
+    </div>  
+
+    <p class="product-meta"><span class="product-label">Description:</span> {{ product.description }}</p>
+    <p class="product-price">BDT {{ product.price }}</p>
+    <p class="product-meta"><span class="product-label">Category:</span> {{ product.category }}</p>
+    <p class="product-meta"><span class="product-label">Product Status:</span> {{ product.product_status }}</p>
+    <p class="product-meta"><span class="product-label">Stock:</span> {{ product.stock_availability }}</p>
+    <p class="product-meta"><span class="product-label">Units sold:</span> {{ product.sold_count }}</p>
+    <p class="product-meta"><span class="product-label">Location:</span> {{ product.location }}</p>
+    <p class="product-meta"><span class="product-label">Listed on:</span> {{ product.listing_date }}</p>
+    <p class="product-meta"><span class="product-label">Last updated:</span> {{ product.last_updated }}</p>
+
+    <!-- Optional Ratings Section -->
+    <div class="ratings-section" style="margin-top: 30px;">
+      <h3>Customer Ratings</h3>
+  
+      {% for review in product.reviews.all %}
+          <div class="review-card">
+              <div class="review-header">
+                  <div class="reviewer-info">
+                      <div class="avatar">
+                          {% if review.reviewer.profile_picture %}
+                              <img src="{{ review.reviewer.profile_picture.url }}" alt="Avatar">
+                          {% else %}
+                              <span class="avatar-letter">{{ review.reviewer.name|slice:":1" }}</span>
+                          {% endif %}
+                      </div>
+                      <div class="reviewer-name">{{ review.reviewer.name }}</div>
+                  </div>
+                  <div class="review-rating">
+                      {% for i in "12345" %}
+                          {% if forloop.counter <= review.rating %}
+                              <i class="fa-solid fa-star"></i>
+                          {% else %}
+                              <i class="fa-regular fa-star"></i>
+                          {% endif %}
+                      {% endfor %}
+                      <span class="rating-number">({{ review.rating }}/5)</span>
+                  </div>
+              </div>
+  
+              {% if review.comment %}
+                  <div class="review-comment">{{ review.comment }}</div>
+              {% endif %}
+              <div class="review-date">{{ review.created_at|date:"F j, Y" }}</div>
+          </div>
+      {% empty %}
+          <p>No reviews yet.</p>
+      {% endfor %}
+    </div>
+
+  </div>
+    
+</div>
+
+</body>
+</html>
+{% include "footer.html" %}

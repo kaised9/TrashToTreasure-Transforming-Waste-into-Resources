@@ -1,0 +1,88 @@
+{% load static %}
+{% include "header.html" %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - TrashToTreasure</title>
+    <link rel="stylesheet" href="{% static 'css/about.css' %}">
+</head>
+<body>
+
+    <div class="banner">
+        <div class="banner-content">
+            <h2>About Us</h2>
+            <p><a href="/">Home</a> > About</p>
+        </div>
+    </div>    
+
+    <!-- About Content Section -->
+    <section class="about-container">
+        <h2>Our Mission</h2>
+        <p>At TrashToTreasure, we aim to bridge the gap between waste producers and creative artisans. We empower local communities by transforming discarded materials into valuable products, fostering sustainability and promoting a circular economy.</p>
+
+        <h2>How It Works</h2>
+        <div class="process">
+            <div class="step">
+                <h3>1. Collection</h3>
+                <p>City corporations gather waste from households and businesses.</p>
+            </div>
+            <div class="step">
+                <h3>2. Sorting</h3>
+                <p>Materials are sorted, and usable items are listed on our platform.</p>
+            </div>
+            <div class="step">
+                <h3>3. Delivery</h3>
+                <p>Drivers collect materials and deliver them to artisans or buyers.</p>
+            </div>
+            <div class="step">
+                <h3>4. Upcycling</h3>
+                <p>Artisans transform waste into unique products for resale.</p>
+            </div>
+        </div>
+
+        <div class="why-choose-us">
+            <h2>Why Choose Us?</h2>
+            <ul>
+                <li><strong>Eco-Friendly:</strong> We reduce landfill waste through sustainable practices.</li>
+                <li><strong>Empower Artisans:</strong> We provide materials for artisans to create and sell.</li>
+                <li><strong>Community Impact:</strong> Supporting local businesses and job creation.</li>
+                <li><strong>Efficient Logistics:</strong> Seamless delivery from trash points to artisans.</li>
+            </ul>
+        </div>
+        
+        <div class="join-us">
+            <h2>Join Us Today!</h2>
+            <p>Become a part of the change – whether you're a buyer, artisan, or delivery partner. Together, we can turn waste into wonder!</p>
+        </div>
+        
+    </section>
+
+    <!-- Footer Section -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-item">
+                <h3>🌟 High Quality</h3>
+                <p>Crafted from top materials</p>
+            </div>
+            <div class="footer-item">
+                <h3>🛡️ Warranty Protection</h3>
+                <p>Over 2 years</p>
+            </div>
+            <div class="footer-item">
+                <h3>🚚 Free Shipping</h3>
+                <p>Order over 15000/=</p>
+            </div>
+            <div class="footer-item">
+                <h3>📞 24/7 Support</h3>
+                <p>Dedicated support</p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
+    
+    {% include "footer.html" %}

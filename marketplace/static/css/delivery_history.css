@@ -1,0 +1,86 @@
+/* Main Container */
+.container {
+    max-width: 1200px;
+    margin: 30px auto;
+    padding: 20px;
+    background: #fefefe;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+/* Page Title */
+.page-title h1 {
+    text-align: center;
+    font-size: 2.5rem;
+    color: #4CAF50;
+    margin-bottom: 40px;
+}
+
+/* Section Titles */
+.section-title {
+    font-size: 1.8rem;
+    color: #8a6f28;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #f0e0c6;
+    padding-bottom: 5px;
+}
+
+/* Table Styling */
+.delivery-table {
+    margin-bottom: 50px;
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+}
+
+thead {
+    background-color: #f3e8d9;
+}
+
+th, td {
+    padding: 12px 15px;
+    text-align: left;
+    font-size: 1rem;
+}
+
+tbody tr:nth-child(odd) {
+    background: #fafafa;
+}
+
+tbody tr:hover {
+    background: #f1f1f1;
+}
+
+/* Status colors */
+.delivered {
+    color: green;
+    font-weight: bold;
+}
+
+.returned {
+    color: red;
+    font-weight: bold;
+}
+
+.packed {
+    color: blue;
+    font-weight: bold;
+}
+
+.on_the_way {
+    color: orange;
+    font-weight: bold;
+}
+
+td a {
+    text-decoration: none;
+    color: #5c5c5c;
+}
+
+td a:hover {
+    text-decoration: underline;
+}

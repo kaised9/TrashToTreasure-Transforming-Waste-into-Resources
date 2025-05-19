@@ -1,0 +1,175 @@
+{% load static %}
+{% include "header.html" %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Order #{{ order.id }} - TrashToTreasure</title>
+    <link rel="stylesheet" href="{% static 'css/buyer_profile.css' %}">
+    <style>
+        .order-container {
+            max-width: 900px;
+            margin: 40px auto;
+            background-color: #fff;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        }
+
+        .order-header {
+            font-size: 28px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+
+        .order-meta {
+            font-size: 16px;
+            color: #555;
+            margin-bottom: 10px;
+        }
+
+        .product-label {
+            font-weight: 600;
+            color: #34495e;
+        }
+
+        .order-items {
+            margin-top: 30px;
+        }
+
+        .order-item {
+            border-bottom: 1px solid #eee;
+            padding: 15px 0;
+            display: flex;
+            gap: 20px;
+        }
+
+        .item-image {
+            width: 100px;
+            height: auto;
+            border-radius: 10px;
+        }
+
+        .item-info {
+            flex: 1;
+        }
+
+        .item-info h4 {
+            margin: 0;
+            font-size: 20px;
+            color: #2c3e50;
+        }
+
+        .item-info p {
+            margin: 5px 0;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .order-summary {
+            margin-top: 30px;
+            font-size: 18px;
+            color: #2c3e50;
+        }
+
+        .back-link {
+            margin-top: 25px;
+            display: inline-block;
+            color: #2980b9;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        .item-info h4 a {
+            text-decoration: none;
+            color: inherit; /* Keeps the default text color */
+            transition: all 0.3s ease;
+        }
+        
+        .item-info h4 a:hover {
+            text-decoration: underline;
+        }
+        
+    </style>
+</head>
+<body>
+
+<div class="order-container">
+    <div class="order-header">Order #{{ order.id }}</div>
+
+    <div class="order-meta"><span class="product-label">Order Date:</span> {{ order.created_at }}</div>
+    <div class="order-meta"><span class="product-label">Status:</span> {{ order.delivery_status }}</div>
+    <div class="order-meta"><span class="product-label">Buyer:</span> {{ order.buyer.name }}</div>
+    <div class="order-meta">
+        <span class="product-label">Shipping Address:</span> 
+        {{ order.street_address }}, {{ order.city }}, {{ order.state }}, {{ order.zip_code }}, {{ order.country }}
+    </div>
+    <div class="order-meta">
+        <span class="product-label">Assigned Delivery Guy:</span> 
+        {{ order.assigned_delivery_guy.name }}
+    </div>
+    <div class="order-meta">
+        <span class="product-label">Assigned Delivery Guy Contact:</span> 
+        {{ order.assigned_delivery_guy.phone }}, {{ order.assigned_delivery_guy.email }} 
+    </div>
+    <div class="order-meta"><span class="product-label">Expected Delivery:</span>
+         {{ order.expected_delivery }}</div>
+    
+
+    <div class="order-items">
+        <h3>Items Ordered</h3>
+        {% for item in ordered_items %}
+            <div class="order-item">
+                {% if item.content_type.model == 'upcycledproduct' %}
+                    <img src="{{ item.item.product_images.url }}" alt="{{ item.item.product_name }}" class="item-image">
+                {% elif item.content_type.model == 'trashitem' %}
+                    <img src="{{ item.item.images.url }}" alt="{{ item.item.material_name }}" class="item-image">
+                {% endif %}
+
+                <div class="item-info">
+                    {% if item.content_type.model == 'upcycledproduct' %}
+                        <h4>
+                            <a href="{% url 'upcycled_product_details' slug=item.item.slug %}">
+                                {{ item.item.product_name }}
+                            </a>
+                        </h4>
+                    {% elif item.content_type.model == 'trashitem' %}
+                        <h4>
+                            <a href="{% url 'trash_item_details' slug=item.item.slug %}">
+                                {{ item.item.material_name }}
+                            </a>
+                        </h4>
+                    {% endif %}
+
+                    <p><span class="product-label">Price:</span> BDT {{ item.price }}</p>
+                    <p><span class="product-label">Quantity:</span> {{ item.quantity }}</p>
+                    <p><span class="product-label">Subtotal:</span> BDT {{ item.quantity|floatformat:2 }} × {{ item.price }} = BDT {{ item.subtotal|floatformat:2 }}</p>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <div class="order-summary">
+        <p><strong>Total Amount:</strong> BDT {{ order.total_amount }}</p>
+    </div>
+
+    {% if pending_review %}
+      <div style="margin: 30px 0; text-align: center;">
+        <a href="{% url 'write_review' order.id %}" 
+           class="btn btn-primary review-button">
+          Write a Review
+        </a>
+      </div>
+    {% endif %}
+
+    <a href="{% url 'my_orders' %}" class="back-link">← Back to My-Orders</a>
+</div>
+
+</body>
+</html>
+{% include "footer.html" %}

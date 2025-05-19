@@ -1,0 +1,155 @@
+/* General Styling */
+body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+    background: #fff;
+    color: #3d3d3d;
+}
+
+/* Main Container */
+.container {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+}
+
+/* Welcome Section */
+.welcome-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 40px 0;
+}
+
+.welcome-text h1 {
+    font-size: 3rem;
+    font-weight: bold;
+    color: #8a6f28;
+    line-height: 1.2;
+}
+
+.delivery-image img {
+    max-width: 400px;
+    height: auto;
+}
+
+/* Schedule Section */
+.schedule-title {
+    text-align: center;
+    font-size: 1.8rem;
+    margin: 40px 0 20px;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+/* Table Styles */
+.schedule-table {
+    width: 100%;
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+
+    border-collapse: separate;    /* default—ensure border-spacing is honored */
+    border-spacing: 0 10px;
+}
+
+thead {
+    background: #f3e8d9;
+    font-weight: bold;
+}
+
+th, td {
+    padding: 15px 20px;
+    text-align: left;
+}
+
+td a {
+    text-decoration: none;
+    color: #5c5c5c;
+}
+
+td a:hover {
+    text-decoration: underline;
+}
+
+tbody tr:nth-child(odd) {
+    background: #fafafa;
+}
+
+tbody tr:hover {
+    background: #f5f5f5;
+}
+
+/* Status Buttons */
+.status {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 20px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.status-dropdown {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    appearance: none; /* Remove default dropdown arrow */
+    outline: none;
+}
+
+/* Status Colors */
+.delivered {
+    background: #4CAF50;
+    color: white;
+}
+
+.returned {
+    background: #E53935;
+    color: white;
+}
+
+.on-way {
+    background: #F9A825;
+    color: white;
+}
+
+.packed {
+    background: #42A5F5;
+    color: white;
+}
+
+/* Show More Button */
+.show-more {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.show-more button {
+    padding: 12px 24px;
+    background: #f0e0c6;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.show-more button:hover {
+    background: #d9c2a7;
+}
+
+input[type="date"] {
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+  }
+  input[type="date"]:focus {
+    outline: none;
+    border-color: #8a6f28;
+  }

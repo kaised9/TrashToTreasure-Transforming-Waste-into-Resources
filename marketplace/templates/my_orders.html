@@ -1,0 +1,75 @@
+{% load static %}
+{% include "header.html" %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Orders - TrashToTreasure</title>
+    <link rel="stylesheet" href="{% static 'css/my_orders.css' %}">
+</head>
+
+<body>
+    <section class="product-banner">
+        <h2>My Orders</h2>
+        <p><a href="/">Home</a> > My Orders</p>
+    </section>
+
+    <div class="my-orders-container">
+        <div class="order-grid">
+            {% for order in orders %}
+                <div class="order-card">
+                    <h3>Order ID: {{ order.id }}</h3>
+                    <p><strong>Order Date:</strong> {{ order.created_at }}</p>
+                    <p><strong>Payment Method:</strong> {{ order.payment_method }}</p>
+                    <p><strong>Delivery Status:</strong> {{ order.delivery_status }}</p>
+                    <p><strong>Payment Status:</strong> {{ order.payment_status }}</p>
+
+                    <div class="order-items">
+                        {% for item in order.items.all %}
+                            <div class="order-item">
+                                <p><strong>
+                                    {% if item.item %} 
+                                        {{ item.item }}  <!-- Use appropriate field for product name -->
+                                    {% else %}
+                                        No product found
+                                    {% endif %}
+                                </strong></p>
+                                <p>Quantity: {{ item.quantity }}</p>
+                                <p>Total: BDT. {{ item.price }}</p>  <!-- Price of each item -->
+                            </div>
+                        {% endfor %}
+                    </div>
+    
+                    <div class="order-total">
+                        <p><strong>Total Amount: </strong>BDT. {{ order.total_amount }}</p>
+                    </div>
+    
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 15px;">
+                        <a href="{% url 'order_details' order.id %}" class="view-details-btn">View Details</a>
+                    
+                        {% if order.delivery_status|lower == 'ready' or order.delivery_status|lower == 'packed' %}
+                            <form method="POST" action="{% url 'cancel_order' order.id %}">
+                                {% csrf_token %}
+                                <button type="submit" class="cancel-order-btn">Cancel Order</button>
+                            </form>
+                        {% elif order.delivery_status|lower == 'on_the_way' %}
+                            <button class="cancel-disabled-btn" onclick="alert('Order is on the way. You cannot cancel it now.')">Cancel Order</button>
+                        {% endif %}
+
+                    </div>
+                    
+                </div>
+            {% empty %}
+                <p>You have no orders yet.</p>
+            {% endfor %}
+        </div>
+    </div>
+    
+
+    {% include "footer.html" %}
+</body>
+
+</html>
